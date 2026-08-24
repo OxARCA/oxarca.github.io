@@ -65,7 +65,6 @@ source-grounded synthesis on the other.
 
 
 
-
 ## Try it on your own material
 
 We are looking for collections to test against. See

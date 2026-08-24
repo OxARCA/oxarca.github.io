@@ -16,5 +16,12 @@ In the test run presented in this poster, using the [Newton's Royal Mint papers 
 1,688 sentence-level citations across 85,789 words of source-grounded prose. Whole-run compute
 came to roughly $12.70.
 
+## The poster
+
+<p class="my-6">
+<a href="/poster_archos.pdf" class="inline-block rounded-md border border-oxford-300 px-5 py-2.5 text-sm font-medium text-oxford-800 no-underline hover:border-bronze-400 hover:text-bronze-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bronze-500 dark:border-oxford-700 dark:text-parchment-200 dark:hover:border-bronze-300 dark:hover:text-bronze-300">Download the poster (PDF, 1.5&nbsp;MB)</a>
+</p>
+
 If you are at the summer school, come and find us. We are especially keen to talk to anyone with
 a collection they would like to discover through the Archos system — see [your collection](/page/datasets.html) for what that involves.
+
