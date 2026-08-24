@@ -3,8 +3,8 @@ Title: British Academy/Leverhulme Small Research Grant awarded
 Summary: The British Academy and the Leverhulme Trust have funded the project - Transferable and Cost-Aware Source-Grounded AI for Archival Research
 Authors: OxARCA
 Date: 2026-08-18
-Category: News
-Tags: [funding, British Academy, Leverhulme, Archos]
+Category: Awards
+Tags: [Awards, British Academy, Leverhulme, Archos]
 ---
 
 Project *Transferable and Cost-Aware Source-Grounded AI for Archival Research*  has been

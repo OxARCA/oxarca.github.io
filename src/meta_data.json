@@ -121,8 +121,15 @@
             "href": "/blog_index.html",
             "match": [
                 "/blog_index.html",
-                "/blog_",
+                "/blog_News.html",
                 "/post/"
+            ]
+        },
+        {
+            "label": "Awards",
+            "href": "/blog_Awards.html",
+            "match": [
+                "/blog_Awards.html"
             ]
         }
     ],

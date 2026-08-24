@@ -3,8 +3,8 @@ Title: The project is funded by a CrossLinks Award 2026
 Summary: St Cross College has funded the development of an epistemically grounded LLM system for archival exploration through its CrossLinks Award scheme.
 Authors: OxARCA
 Date: 2026-05-07
-Category: News
-Tags: [funding, CrossLinks, St Cross College]
+Category: Awards
+Tags: [Awards, CrossLinks, St Cross College]
 ---
 
 Our project — *Interdisciplinary Uses of AI in the Humanities: Developing an Epistemically
