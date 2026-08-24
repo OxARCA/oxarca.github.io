@@ -10,16 +10,19 @@ Tags: [people, research group]
 OxARCA — **AI for Research, Collections and Archives**. We work at the intersection of historical scholarship, archival practice
 and artificial intelligence. We explore the question of what an AI system has to do before a historian can responsibly rely on it.
 
-<!-- ADDING A PHOTO
-     Drop the file in source/image/people/ using the name already written in each
-     card below (sebastian-eck.jpg, ashley-duraiswamy.jpg, puyu-wang.jpg,
-     yishun-lu.jpg), then in that card delete the <span> initials line and
-     uncomment the <img> line above it. Square crops look best; anything from
-     400x400 up is plenty. Nothing breaks while a photo is still missing — the
-     card just keeps showing initials.
+<!-- ADDING A PERSON
+     Copy one <li> block and change four things: the image filename, the name,
+     the href, and the role line.
 
-     To add a person, copy one <li> block and change the four things in it:
-     image name, initials, name and href, and the role line. -->
+     Photos live in source/image/people/ and are shown in a 96px circle, so
+     supply roughly 400x400 or larger. object-cover crops to a square from the
+     centre and object-top pulls that square to the top of the frame, which is
+     what keeps a head from being sliced off a portrait-orientation photo.
+     CSS can only shift the crop, never zoom it, so a photo where the face is
+     small in the frame has to be cropped to the face before it goes in here.
+
+     To fall back to initials while a photo is missing, replace the <img> with:
+     <span aria-hidden="true" class="grid h-24 w-24 shrink-0 place-items-center rounded-full bg-oxford-100 font-display text-xl font-semibold text-oxford-700 dark:bg-oxford-800 dark:text-parchment-200">XY</span> -->
 
 <ul role="list" class="not-prose mt-8 grid gap-px overflow-hidden rounded-lg border border-oxford-200 bg-oxford-200 sm:grid-cols-2 dark:border-oxford-700 dark:bg-oxford-700">
 
@@ -32,8 +35,7 @@ and artificial intelligence. We explore the question of what an AI system has to
 </li>
 
 <li class="flex flex-col items-center gap-3 bg-parchment-50 px-5 py-7 text-center dark:bg-oxford-900">
-<!-- <img src="/image/people/ashley-duraiswamy.jpg" alt="" class="h-24 w-24 shrink-0 rounded-full object-cover object-top"> -->
-<span aria-hidden="true" class="grid h-24 w-24 shrink-0 place-items-center rounded-full bg-oxford-100 font-display text-xl font-semibold text-oxford-700 dark:bg-oxford-800 dark:text-parchment-200">AD</span>
+<img src="/image/people/ashley-duraiswamy.jpg" alt="" class="h-24 w-24 shrink-0 rounded-full object-cover object-top">
 <span>
 <a href="https://www.english.ox.ac.uk/people/ashley-duraiswamy" class="font-medium text-oxford-900 underline-offset-4 hover:text-bronze-500 hover:underline dark:text-parchment-100 dark:hover:text-bronze-300">Ashley Duraiswamy</a>
 <span class="mt-0.5 block text-sm text-oxford-600 dark:text-oxford-300">DPhil in English Literature, University of Oxford</span>
