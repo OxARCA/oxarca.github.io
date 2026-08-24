@@ -1,0 +1,106 @@
+/* Tailwind CSS v4 entry point (CSS-first configuration).
+ *
+ * Compiled by `npm run build:css` into docs/styles.css.
+ * There is no tailwind.config.js in v4 — configure here instead.
+ */
+
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* Where to look for class names. Paths are relative to this file (src/).
+ * Scanning the Jinja templates as well as the generated HTML means a class
+ * is never purged just because the CSS was rebuilt before the HTML. The
+ * markdown glob matters here: several pages carry raw HTML blocks. */
+@source "../src/**/*.html";
+@source "../docs/**/*.html";
+@source "../source/**/*.md";
+
+/* Site-wide tokens. Override to rebrand.
+ *
+ * `oxford` is the University's blue (#002147) extended into a scale;
+ * `parchment` carries the warm paper ground the light theme sits on; and
+ * `bronze` is the single accent, warm enough to read as ink-on-paper rather
+ * than as a second brand colour. Both accent steps are chosen so link text
+ * clears WCAG AA against its own theme's background. */
+@theme {
+  --font-display: ui-serif, Georgia, "Iowan Old Style", "Times New Roman", serif;
+
+  --color-oxford-50: #eff3f8;
+  --color-oxford-100: #dae3ef;
+  --color-oxford-200: #b4c6dd;
+  --color-oxford-300: #85a3c6;
+  --color-oxford-400: #547ead;
+  --color-oxford-500: #2f5c8f;
+  --color-oxford-600: #1b4374;
+  --color-oxford-700: #0d305b;
+  --color-oxford-800: #042546;
+  --color-oxford-900: #002147;
+  --color-oxford-950: #00152e;
+
+  --color-parchment-50: #fdfcf9;
+  --color-parchment-100: #faf7f0;
+  --color-parchment-200: #f2ece0;
+  --color-parchment-300: #e6dcc9;
+  --color-parchment-400: #d3c4a8;
+
+  --color-bronze-500: #8a6520;
+  --color-bronze-400: #a67c2c;
+  --color-bronze-300: #c9a45c;
+  --color-bronze-200: #ddc79a;
+}
+
+/* The header is sticky, so in-page anchors must not land underneath it.
+ * `text-size-adjust` stops iOS Safari inflating body text of its own accord
+ * when a phone is turned to landscape. */
+html {
+  scroll-padding-top: 4.5rem;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* The nav scrolls sideways on narrow screens; its scrollbar would otherwise
+ * sit across the header on platforms that reserve space for one. */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Long-form prose: the typography plugin's defaults are tuned for blogs, and
+ * these pages are closer to a report — slightly tighter measure, headings in
+ * the display face, and quotations that read as sources rather than pull
+ * quotes. */
+@utility prose-oxarca {
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+  blockquote {
+    font-style: normal;
+    quotes: none;
+  }
+  /* A bare URL, a long identifier or an archival reference is otherwise one
+   * unbreakable word, and at phone width one of those pushes the whole page
+   * sideways. `anywhere` breaks only when the line cannot fit, so ordinary
+   * prose is unaffected. */
+  p, li, dd, blockquote, figcaption, td, th {
+    overflow-wrap: anywhere;
+  }
+  code {
+    overflow-wrap: break-word;
+  }
+}
+
+/* Respect a reduced-motion preference site-wide. The site uses motion only
+ * for hover and focus transitions, so removing it costs nothing. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}

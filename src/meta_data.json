@@ -1,0 +1,132 @@
+{
+    "title": "OxARCA",
+    "tagline": "AI for Research, Collections and Archives",
+    "description": "OxARCA builds Archos, an epistemically grounded LLM system for archival exploration: source-grounded synthesis with sentence-level traceability, preserved ambiguity and a cumulative research record.",
+    "author": "OxARCA, University of Oxford",
+    "date": "2026-08-23",
+    "link": "https://oxarca.github.io",
+    "image": "image/og-default.png",
+    "contact_email": "",
+    "affiliation": "University of Oxford",
+    "funder": "",
+    "archos_stats": {
+        "caption": "What one research question produced",
+        "note": "From a single research question the system assembled 261 primary sources into 5 sections and 27 subsections. Whole-run compute: approximately $12.70.",
+        "tiles": [
+            {
+                "value": "261",
+                "label": "primary sources synthesised"
+            },
+            {
+                "value": "1,688",
+                "label": "sentence-level citations"
+            },
+            {
+                "value": "85,789",
+                "label": "words of source-grounded prose"
+            },
+            {
+                "value": "$12.70",
+                "label": "computation cost"
+            }
+        ]
+    },
+    "comparison": {
+        "conventional": "Conventional AI systems",
+        "scholarly": "Our scholarly AI system",
+        "rows": [
+            {
+                "conventional": "Optimises for plausible answers",
+                "scholarly": "Optimises for historical rigour"
+            },
+            {
+                "conventional": "Hides uncertainty",
+                "scholarly": "Preserves uncertainty"
+            },
+            {
+                "conventional": "Opaque provenance",
+                "scholarly": "Sentence-level traceability"
+            },
+            {
+                "conventional": "Stateless",
+                "scholarly": "Cumulative research record"
+            }
+        ]
+    },
+    "constitution": [
+        {
+            "numeral": "I",
+            "name": "Traceability",
+            "text": "Every claim cites a specific source."
+        },
+        {
+            "numeral": "II",
+            "name": "Bounded agency",
+            "text": "Synthesis only from retrieved evidence."
+        },
+        {
+            "numeral": "III",
+            "name": "Language fidelity",
+            "text": "Source language reproduced verbatim."
+        },
+        {
+            "numeral": "IV",
+            "name": "Ambiguity preserved",
+            "text": "Never silently resolved."
+        },
+        {
+            "numeral": "V",
+            "name": "Contradiction shown",
+            "text": "Conflicting sources kept side by side."
+        },
+        {
+            "numeral": "VI",
+            "name": "Accumulation",
+            "text": "Every independent attestation stays visible."
+        },
+        {
+            "numeral": "VII",
+            "name": "Contextual continuity",
+            "text": "Argument context carried forward."
+        },
+        {
+            "numeral": "VIII",
+            "name": "Revision & versioning",
+            "text": "A cumulative, revisable research record."
+        }
+    ],
+    "nav": [
+        {
+            "label": "Home",
+            "href": "/index.html"
+        },
+        {
+            "label": "Archos",
+            "href": "/page/archos.html"
+        },
+        {
+            "label": "People",
+            "href": "/page/people.html"
+        },
+        {
+            "label": "Publications",
+            "href": "/page/publications.html"
+        },
+        {
+            "label": "Get involved",
+            "href": "/page/datasets.html"
+        },
+        {
+            "label": "News",
+            "href": "/blog_index.html",
+            "match": [
+                "/blog_index.html",
+                "/blog_",
+                "/post/"
+            ]
+        }
+    ],
+    "phrases": [
+        "Every claim cites a specific source."
+    ]
+}

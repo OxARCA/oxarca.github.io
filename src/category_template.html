@@ -1,0 +1,36 @@
+{# One category listing page (docs/blog_<category>.html).
+   Context: meta_data, canonical, title, phrases, posts, category, tags #}
+{% extends "base.html" %}
+
+{% block page_title %}{{ category }} — {{ meta_data.title }}{% endblock %}
+
+{% block meta %}
+<meta name="description" content="{{ category }} from {{ meta_data.title }} — {{ meta_data.tagline }}.">
+<meta property="og:title" content="{{ category }} — {{ meta_data.title }}">
+<meta property="og:type" content="website">
+{% if canonical %}<meta property="og:url" content="{{ canonical }}">{% endif %}
+<meta name="twitter:card" content="summary">
+{% endblock %}
+
+{% block content %}
+<p class="text-xs font-medium tracking-[0.16em] text-bronze-500 uppercase dark:text-bronze-300">Category</p>
+<h1 class="mt-2 font-display text-3xl font-semibold tracking-tight text-oxford-900 sm:text-4xl dark:text-parchment-100">{{ category }}</h1>
+
+<ul role="list" class="mt-10 divide-y divide-oxford-200 dark:divide-oxford-700">
+  {% for post in posts %}
+  <li class="py-6">
+    {% if post.date %}
+    <time datetime="{{ post.date.isoformat() }}" class="text-xs tracking-wide text-oxford-500 uppercase dark:text-oxford-300">{{ post.date.strftime('%d %B %Y') }}</time>
+    {% endif %}
+    <h2 class="mt-1 font-display text-xl font-semibold tracking-tight">
+      <a href="{{ base }}{{ post.link }}" class="text-oxford-900 no-underline hover:text-bronze-500 dark:text-parchment-100 dark:hover:text-bronze-300">{{ post.title }}</a>
+    </h2>
+    {% if post.summary %}<p class="mt-2 text-oxford-600 dark:text-oxford-300">{{ post.summary }}</p>{% endif %}
+  </li>
+  {% endfor %}
+</ul>
+
+<p class="mt-10 text-sm">
+  <a href="{{ base }}/blog_index.html" class="underline underline-offset-4 hover:text-bronze-500 dark:hover:text-bronze-300">← All news</a>
+</p>
+{% endblock %}

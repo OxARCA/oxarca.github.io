@@ -1,0 +1,194 @@
+{# Base layout shared by every OxARCA template.
+
+   Only `title` and `phrases` are available in every render context, so
+   anything else must be guarded with `is defined`. `site_url`, `feed_url`
+   and `base` are Jinja globals — `base` is the path prefix set in build.py,
+   empty while the site is served from the organisation root. Every internal
+   link is written as `{{ base }}/...` so a move to a subpath needs no
+   template changes. `post.link` already carries its own leading slash. #}
+<!doctype html>
+<html lang="{{ lang | default('en') }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#002147" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#00152e" media="(prefers-color-scheme: dark)">
+<title>{% block page_title %}{{ title }}{% endblock %}</title>
+{% if canonical %}<link rel="canonical" href="{{ canonical }}">{% endif %}
+{% if feed_url %}<link rel="alternate" type="application/rss+xml" title="{{ meta_data.title if meta_data else title }}" href="{{ feed_url }}">{% endif %}
+{% block meta %}{% endblock %}
+<link rel="stylesheet" href="{{ base }}/styles.css">
+<link rel="stylesheet" href="{{ base }}/pygments.css">
+{% if jsonld %}<script type="application/ld+json">
+{{ jsonld }}
+</script>{% endif %}
+</head>
+<body class="flex min-h-screen flex-col bg-parchment-100 text-oxford-950 antialiased dark:bg-oxford-950 dark:text-parchment-200">
+
+<a href="#content" class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:rounded-md focus:bg-oxford-900 focus:px-4 focus:py-2 focus:text-parchment-50">Skip to content</a>
+
+{# The active nav item is derived from `canonical`, which every page render
+   supplies except the 404 — there, nothing is marked current, which is
+   correct. Matching is a substring test against the absolute URL: an item's
+   `match` list, or its href when it has none. News carries a list so that
+   posts and category pages light it up too. #}
+{% set here = canonical | default('', true) %}
+
+{# Resolved once and read by both navs below, so the two never disagree about
+   which item is current. #}
+{% set nav_items = [] %}
+{% if meta_data and meta_data.nav %}
+  {% for item in meta_data.nav %}
+    {% set ns = namespace(active=false) %}
+    {% for pattern in item.match | default([item.href], true) %}
+      {% if pattern in here %}{% set ns.active = true %}{% endif %}
+    {% endfor %}
+    {% set _ = nav_items.append({'label': item.label, 'href': item.href, 'active': ns.active}) %}
+  {% endfor %}
+{% endif %}
+
+<header class="sticky top-0 z-40 border-b border-oxford-200/70 bg-parchment-100/85 backdrop-blur-md supports-[backdrop-filter]:bg-parchment-100/65 dark:border-oxford-700/70 dark:bg-oxford-950/85 dark:supports-[backdrop-filter]:bg-oxford-950/65">
+  <div class="mx-auto flex max-w-4xl items-center gap-x-4 px-5 py-3 sm:gap-x-6">
+
+    <a href="{{ base }}/index.html" class="-my-1 shrink-0 py-1 font-display text-xl font-semibold tracking-tight text-oxford-900 no-underline hover:text-bronze-500 dark:text-parchment-100 dark:hover:text-bronze-300">
+      {{ meta_data.title if meta_data else title }}
+    </a>
+
+    {# Phones get a disclosure menu. Six items do not fit across a 375px
+       screen, and a sideways scroller leaves the last three off the edge with
+       nothing to say they are there. <details> needs no JavaScript to open;
+       the script at the end of the page only adds closing on Escape or on a
+       tap outside. The summary is 44px square — a thumb-sized target. #}
+    <details id="nav-menu" class="group relative ml-auto sm:hidden">
+      <summary class="flex size-11 cursor-pointer list-none items-center justify-center rounded-md text-oxford-700 hover:bg-oxford-900/8 hover:text-oxford-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bronze-500 dark:text-oxford-200 dark:hover:bg-parchment-100/10 dark:hover:text-parchment-50 [&::-webkit-details-marker]:hidden">
+        <span class="sr-only">Menu</span>
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" class="size-6">
+          <path d="M4 7h16M4 12h16M4 17h16" class="group-open:hidden"></path>
+          <path d="M6 6l12 12M18 6L6 18" class="hidden group-open:block"></path>
+        </svg>
+      </summary>
+      <nav aria-label="Primary" class="absolute right-0 z-50 mt-2 w-56 overflow-hidden rounded-lg border border-oxford-200 bg-parchment-50 py-1 shadow-lg dark:border-oxford-700 dark:bg-oxford-900">
+        <ul role="list" class="text-sm">
+          {% for item in nav_items %}
+          <li>
+            <a href="{{ base }}{{ item.href }}"
+               {% if item.active %}aria-current="page"{% endif %}
+               class="block px-4 py-3 no-underline {% if item.active %}bg-oxford-900/8 font-medium text-oxford-900 dark:bg-parchment-100/10 dark:text-parchment-50{% else %}text-oxford-700 dark:text-oxford-200{% endif %}">
+              {{ item.label }}
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </nav>
+    </details>
+
+    {# From `sm` up the items sit inline. It stays a scroll container so a
+       longer nav degrades by scrolling rather than by wrapping the header
+       onto a second line; `min-w-0` states the shrink explicitly. #}
+    <nav id="primary-nav" aria-label="Primary" class="no-scrollbar ml-auto hidden min-w-0 overflow-x-auto sm:block">
+      <ul role="list" class="flex items-center gap-1 text-sm">
+        {% for item in nav_items %}
+        <li>
+          <a href="{{ base }}{{ item.href }}"
+             {% if item.active %}aria-current="page"{% endif %}
+             class="block rounded-full px-3 py-1.5 whitespace-nowrap no-underline transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bronze-500 {% if item.active %}bg-oxford-900 font-medium text-parchment-50 dark:bg-parchment-100 dark:text-oxford-950{% else %}text-oxford-700 hover:bg-oxford-900/8 hover:text-oxford-900 dark:text-oxford-200 dark:hover:bg-parchment-100/10 dark:hover:text-parchment-50{% endif %}">
+            {{ item.label }}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </nav>
+
+  </div>
+</header>
+
+<div class="mx-auto flex w-full max-w-4xl flex-1 flex-col px-5">
+
+  <main id="content" class="flex-1 py-12">
+{% block content %}{% endblock %}
+  </main>
+
+  {# Identity on the left, colophon on the right, stacking on narrow screens.
+     Each line below the first is optional: an empty value in meta_data.json
+     removes it rather than leaving a blank row. #}
+  <footer class="mt-8 border-t border-oxford-200 py-8 text-sm text-oxford-600 dark:border-oxford-700 dark:text-oxford-300">
+    <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+
+      {% if meta_data %}
+      <div class="max-w-lg">
+        <p class="font-medium text-oxford-800 dark:text-parchment-200">{{ meta_data.title }} — {{ meta_data.tagline }}</p>
+        {% if meta_data.affiliation %}<p class="mt-1">{{ meta_data.affiliation }}</p>{% endif %}
+        {% if meta_data.funder %}<p class="mt-1">Funded by the {{ meta_data.funder }}.</p>{% endif %}
+        {% if meta_data.contact_email %}
+        <p class="mt-2">
+          <a href="mailto:{{ meta_data.contact_email }}" class="underline underline-offset-4 hover:text-bronze-500 dark:hover:text-bronze-300">{{ meta_data.contact_email }}</a>
+        </p>
+        {% endif %}
+      </div>
+      {% endif %}
+
+      <div class="text-xs text-oxford-500 sm:shrink-0 sm:text-right dark:text-oxford-300">
+        {% if meta_data and meta_data.date %}<p>© {{ meta_data.date[:4] }} {{ meta_data.title }}</p>{% endif %}
+        <p class="mt-1">
+          Built with <a href="https://github.com/PaulWang1905/oxie" class="underline underline-offset-4 hover:text-bronze-500 dark:hover:text-bronze-300">oxie</a>{% if feed_url %}
+          <span aria-hidden="true" class="px-1 text-oxford-400 dark:text-oxford-500">·</span>
+          <a href="{{ feed_url }}" class="underline underline-offset-4 hover:text-bronze-500 dark:hover:text-bronze-300">RSS</a>{% else %}.{% endif %}
+        </p>
+      </div>
+
+    </div>
+  </footer>
+
+</div>
+
+{# Three progressive enhancements. Everything below still works with
+   scripting off: the nav bar simply starts at Home, the menu closes by
+   tapping its own button, and a wide table scrolls the way the browser
+   would have let it anyway. #}
+<script>
+  (function () {
+    // The inline nav can scroll sideways, so the current item may start out
+    // past the right edge. Centre it. Only the nav's own scrollLeft is
+    // touched, never the page's.
+    var nav = document.getElementById('primary-nav');
+    var current = nav && nav.querySelector('[aria-current="page"]');
+    if (nav && current) {
+      // Measured with rects, not offsetLeft: the sticky header is the
+      // offsetParent here, so offsetLeft is not relative to the nav.
+      var navBox = nav.getBoundingClientRect();
+      var itemBox = current.getBoundingClientRect();
+      nav.scrollLeft += (itemBox.left - navBox.left) - (navBox.width - itemBox.width) / 2;
+    }
+
+    // A menu left open behind a tap elsewhere is the usual complaint about
+    // <details> as a menu, so close it on an outside tap or on Escape.
+    var menu = document.getElementById('nav-menu');
+    if (menu) {
+      document.addEventListener('click', function (event) {
+        if (menu.open && !menu.contains(event.target)) menu.open = false;
+      });
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && menu.open) {
+          menu.open = false;
+          menu.querySelector('summary').focus();
+        }
+      });
+    }
+
+    // Markdown tables carry no wrapper of their own and can be wider than a
+    // phone. Give each one a scroll container so the page body never scrolls
+    // sideways. Wrapping the table — rather than making the table itself a
+    // block box — is what keeps its rows and headers legible to a screen
+    // reader. On narrow screens the container bleeds to the screen edges so
+    // the full column width is usable.
+    document.querySelectorAll('.prose table').forEach(function (table) {
+      var wrap = document.createElement('div');
+      wrap.className = '-mx-5 overflow-x-auto px-5 sm:mx-0 sm:px-0';
+      table.parentNode.insertBefore(wrap, table);
+      wrap.appendChild(table);
+    });
+  })();
+</script>
+
+</body>
+</html>
